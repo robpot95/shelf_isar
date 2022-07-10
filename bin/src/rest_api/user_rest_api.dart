@@ -30,7 +30,7 @@ class UserRestApi {
       // Convert the json response to an object
       final user = User.fromJson(data);
 
-      // Check if user exsist
+      // Check if user exsist else add new user
       final getUser = await isar.users.getByName(user.name);
       if (getUser != null) {
         // Send back a json response of the POST
@@ -55,7 +55,7 @@ class UserRestApi {
     });
 
     router.delete("/<name|.+>", (Request request, String name) async {
-      // Find user by email and delete
+      // Find user by name and delete
       final user = await isar.users.getByName(name);
       if (user != null) {
         await isar.writeTxn(() async => await isar.users.delete(user.id ?? 0));
